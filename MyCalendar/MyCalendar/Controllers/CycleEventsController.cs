@@ -30,10 +30,16 @@ namespace MyCalendar.Controllers
         [HttpPost]
         public ActionResult Create(CycleEventFormViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.Types = _context.Types.ToList();
+                return View("Create", viewModel);
+            }
+
             var cycleEvent = new Event()
             {
-                StartDate = viewModel.StartDateParse,
-                EndDate = viewModel.EndDateParse,
+                StartDate = viewModel.GetStartDate(),
+                EndDate = viewModel.GetEndDate(),
                 TypeId = viewModel.Type,
                 UserId = User.Identity.GetUserId()
             };

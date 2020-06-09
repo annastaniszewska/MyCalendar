@@ -1,6 +1,7 @@
 ﻿@model MyCalendar.ViewModels.CycleEventFormViewModel
 @{
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Add an Event</h2>
@@ -9,18 +10,27 @@
     <div class="form-group">
         @Html.LabelFor(m => m.StartDate)
         @Html.TextBoxFor(m => m.StartDate, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.StartDate)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.EndDate)
         @Html.TextBoxFor(m => m.EndDate, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.EndDate)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Type)
         @Html.DropDownListFor(m => m.Type, new SelectList(Model.Types, "Id", "Name"), "", new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Type)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Time)
         @Html.TextBoxFor(m => m.Time, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Time)
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
 }
