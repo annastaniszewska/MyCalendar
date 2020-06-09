@@ -1,5 +1,6 @@
-﻿using MyCalendar.Models;
+﻿using System;
 using System.Collections.Generic;
+using Type = MyCalendar.Models.Type;
 
 namespace MyCalendar.ViewModels
 {
@@ -14,5 +15,9 @@ namespace MyCalendar.ViewModels
         public IEnumerable<Type> Types { get; set; }
 
         public string Time { get; set; }
+
+        public DateTime StartDateParse => DateTime.Parse($"{StartDate} {Time}");
+
+        public DateTime EndDateParse => DateTime.Parse($"{EndDate}");
     }
 }

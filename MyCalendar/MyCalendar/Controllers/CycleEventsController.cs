@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyCalendar.Models;
 using MyCalendar.ViewModels;
-using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -33,8 +32,8 @@ namespace MyCalendar.Controllers
         {
             var cycleEvent = new Event()
             {
-                StartDate = DateTime.Parse($"{viewModel.StartDate} {viewModel.Time}"),
-                EndDate = DateTime.Parse($"{viewModel.EndDate}"),
+                StartDate = viewModel.StartDateParse,
+                EndDate = viewModel.EndDateParse,
                 TypeId = viewModel.Type,
                 UserId = User.Identity.GetUserId()
             };
