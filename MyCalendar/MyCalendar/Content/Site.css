@@ -36,6 +36,11 @@ span.field-validation-error {
 
 .navbar-inverse .navbar-nav > li > a {
     color: #E3E2DF;
+    padding-right: 10px;
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a .caret {
+    margin-left: 10px;
 }
 
 .navbar-inverse .navbar-brand {
