@@ -7,15 +7,15 @@ namespace MyCalendar.ViewModels
 {
     public class CycleEventFormViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter start date.")]
         [ValidDate]
         public string StartDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter end date.")]
         [ValidDate]
         public string EndDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please provide type.")]
         public byte Type { get; set; }
 
         public IEnumerable<Type> Types { get; set; }
