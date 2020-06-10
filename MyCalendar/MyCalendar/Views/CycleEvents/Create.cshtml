@@ -7,6 +7,7 @@
 <h2>Add an Event</h2>
 @using (Html.BeginForm("Create", "CycleEvents"))
 {
+    @Html.AntiForgeryToken()
     <div class="form-group">
         @Html.LabelFor(m => m.StartDate)
         @Html.TextBoxFor(m => m.StartDate, new {@class = "form-control"})

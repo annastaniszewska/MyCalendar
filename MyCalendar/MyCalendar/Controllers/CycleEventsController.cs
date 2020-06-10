@@ -28,6 +28,7 @@ namespace MyCalendar.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CycleEventFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
