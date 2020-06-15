@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyCalendar.Models;
 using MyCalendar.ViewModels;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -24,6 +25,25 @@ namespace MyCalendar.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [Authorize]
+        public ActionResult GetRecentEvents()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var cycleEvents = _context.Events
+                .Where(e => e.UserId == userId)
+                .Include(e => e.Type)
+                .OrderByDescending(e => e.StartDate)
+                .ToList();
+
+            var viewModel = new CycleEventsViewModel()
+            {
+                RecentCycleEvents = cycleEvents
+            };
+
+            return View("MyRecentEvents", viewModel);
         }
 
         [Authorize]

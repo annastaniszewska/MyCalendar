@@ -1,0 +1,61 @@
+﻿@model MyCalendar.ViewModels.CycleEventsViewModel
+@{
+    ViewBag.Title = "My Recent Events";
+}
+
+<h2>My recent events</h2>
+<ul>
+    @foreach (var cycleEvent in Model.RecentCycleEvents)
+    {
+        if (cycleEvent.Type.Id == 1)
+        {
+            <li class="dates">
+                <div class="startDate">
+                    <span>Start date</span>
+                    <div class="startDateCard"></div>
+                    <div class="day">
+                        @cycleEvent.StartDate.ToString("d ")
+                    </div>
+                    <div class="monthYear">
+                        @cycleEvent.StartDate.ToString("MMM") @cycleEvent.StartDate.ToString("yy")
+                    </div>
+                </div>
+                <div class="interval">
+                    <div class="bar"></div>
+                </div>
+                <div class="endDate">
+                    <span>End date</span>
+                    <div class="endDateCard"></div>
+                    <div class="day">
+                        @cycleEvent.EndDate.ToString("d ")
+                    </div>
+                    <div class="monthYear">
+                        @cycleEvent.EndDate.ToString("MMM") @cycleEvent.EndDate.ToString("yy")
+                    </div>
+                </div>
+            </li>
+        }
+        else
+        {
+            <li class="dates">
+                <div class="ovulationDate">
+                    <span>Ovulation</span>
+                    <div class="ovulationDateCard"></div>
+                    <div class="day">
+                        @cycleEvent.StartDate.ToString("d ")
+                    </div>
+                    <div class="monthYear">
+                        @cycleEvent.StartDate.ToString("MMM") @cycleEvent.StartDate.ToString("yy")
+                    </div>
+                </div>
+                <div class="ovulationInterval">
+                    <span id="time">
+                        Approximate time:
+                        @cycleEvent.StartDate.ToString("HH:mm")
+                    </span>
+                </div>
+            </li>
+        }
+    }
+</ul>
+
