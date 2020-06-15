@@ -1,9 +1,33 @@
 ﻿@model MyCalendar.Models.Event
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home";
 }
 @if (User.Identity.IsAuthenticated)
 {
     <h2>My latest period</h2>
-    <div>@Model.StartDate - @Model.EndDate</div>
+    <div class="dates">
+        <div class="startDate">
+            <span>Start date</span>
+            <div class="startDateCard"></div>
+            <div class="day">
+                @Model.StartDate.ToString("d ")
+            </div>
+            <div class="monthYear">
+                @Model.StartDate.ToString("MMM") @Model.StartDate.ToString("yy")
+            </div>
+        </div>
+        <div class="interval">
+            <div class="bar"></div>
+        </div>
+        <div class="endDate">
+            <span>End date</span>
+            <div class="endDateCard"></div>
+            <div class="day">
+                @Model.EndDate.ToString("d ")
+            </div>
+            <div class="monthYear">
+                @Model.EndDate.ToString("MMM") @Model.EndDate.ToString("yy")
+            </div>
+        </div>
+    </div>
 }
