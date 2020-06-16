@@ -1,33 +1,72 @@
-﻿@model MyCalendar.Models.Event
+﻿@model MyCalendar.ViewModels.CycleEventsViewModel
 @{
     ViewBag.Title = "Home";
 }
 @if (User.Identity.IsAuthenticated)
 {
-    <h2>My latest period</h2>
-    <div class="dates">
-        <div class="startDate">
-            <span>Start date</span>
-            <div class="startDateCard"></div>
-            <div class="day">
-                @Model.StartDate.ToString("d ")
+    foreach (var cycleEvent in Model.RecentCycleEvents)
+    {
+        if (cycleEvent.Type.Id == 1)
+        {
+            <h2>My latest period</h2>
+            <div class="dates">
+                <div class="startDate">
+                    <span>Start date</span>
+                    <div class="startDateCard"></div>
+                    <div class="day">
+                        @cycleEvent.StartDate.ToString("d ")
+                    </div>
+                    <div class="monthYear">
+                        @cycleEvent.StartDate.ToString("MMM") @cycleEvent.StartDate.ToString("yy")
+                    </div>
+                </div>
+                <div class="interval">
+                    <div class="bar"></div>
+                </div>
+                <div class="endDate">
+                    <span>End date</span>
+                    <div class="endDateCard"></div>
+                    <div class="day">
+                        @cycleEvent.EndDate.ToString("d ")
+                    </div>
+                    <div class="monthYear">
+                        @cycleEvent.EndDate.ToString("MMM") @cycleEvent.EndDate.ToString("yy")
+                    </div>
+                </div>
             </div>
-            <div class="monthYear">
-                @Model.StartDate.ToString("MMM") @Model.StartDate.ToString("yy")
-            </div>
-        </div>
-        <div class="interval">
-            <div class="bar"></div>
-        </div>
-        <div class="endDate">
-            <span>End date</span>
-            <div class="endDateCard"></div>
-            <div class="day">
-                @Model.EndDate.ToString("d ")
-            </div>
-            <div class="monthYear">
-                @Model.EndDate.ToString("MMM") @Model.EndDate.ToString("yy")
-            </div>
-        </div>
+            foreach (var cycleLength in Model.MenstrualCycles)
+            {
+                <div class="previous-cycle voffset1">
+                    Previous menstrual cycle length: <strong>@cycleLength</strong> days
+                </div>
+            }
+        }
+        else
+        {
+            <h2>My latest ovulation</h2>
+            <li class="dates">
+                <div class="ovulationDate">
+                    <span>Ovulation</span>
+                    <div class="ovulationDateCard"></div>
+                    <div class="day">
+                        @cycleEvent.StartDate.ToString("d ")
+                    </div>
+                    <div class="monthYear">
+                        @cycleEvent.StartDate.ToString("MMM") @cycleEvent.StartDate.ToString("yy")
+                    </div>
+                </div>
+                <div class="ovulationInterval">
+                    <div id="timeTitle">
+                        Approximate time:
+                    </div>
+                    <div id="time">
+                        @cycleEvent.StartDate.ToString("HH:mm")
+                    </div>
+                </div>
+            </li>
+        }
+    }
+    <div class="voffset3">
+        <a href="@Url.Action("GetRecentEvents", "CycleEvents")">See more</a>
     </div>
 }

@@ -1,7 +1,8 @@
-﻿using System;
-using System.Data.Entity;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using MyCalendar.Models;
+using MyCalendar.ViewModels;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -21,12 +22,44 @@ namespace MyCalendar.Controllers
             var userId = User.Identity.GetUserId();
 
             var latestEvent = _context.Events
-                .Include(e => e.User)
-                .Where(e => e.UserId == userId)
+                .Include(e => e.Type)
+                .Where(e => e.UserId == userId && e.TypeId == 1)
                 .OrderByDescending(e => e.StartDate)
                 .FirstOrDefault();
 
-            return View(latestEvent);
+            var latestOvulationEvent = _context.Events
+                .Include(e => e.Type)
+                .Where(e => e.UserId == userId && e.TypeId == 2)
+                .OrderByDescending(e => e.StartDate)
+                .FirstOrDefault();
+
+            var periodEvents = _context.Events
+                .Where(e => e.UserId == userId && e.TypeId == 1)
+                .OrderByDescending(e => e.StartDate)
+                .Take(2)
+                .ToList();
+
+            var cycleLengths = new List<int>();
+
+            for (var i = 0; i < periodEvents.Count - 1; i++)
+            {
+                var cycleLength = (periodEvents[i].StartDate - periodEvents[i+1].StartDate).Days;
+                cycleLengths.Add(cycleLength);
+            }
+
+            var mostRecentEvents = new List<Event>
+            {
+                latestEvent,
+                latestOvulationEvent
+            };
+
+            var viewModel = new CycleEventsViewModel()
+            {
+                RecentCycleEvents = mostRecentEvents,
+                MenstrualCycles = cycleLengths
+            };
+
+            return View("Index", viewModel);
         }
 
         public ActionResult About()

@@ -28,6 +28,26 @@ span.field-validation-error {
     font-size: 15px;
 }
 
+.voffset {
+    margin-top: 10px;
+}
+
+.voffset1 {
+    margin-top: 20px;
+}
+
+.voffset2 {
+    margin-top: 30px;
+}
+
+.voffset3 {
+    margin-top: 40px;
+}
+
+.voffset4 {
+    margin-top: 50px;
+}
+
 /* Bootstrap Overrides */
 .navbar-inverse {
     background-color: #E7717D;
@@ -132,6 +152,7 @@ h6,
     float:left;
     width: 100px;
     text-align: center;
+    position: relative;
 }
 
 .startDate > span {
@@ -206,18 +227,28 @@ h6,
     left: 1px;
 }
 
-.ovulationInterval > #time {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    text-align: center;
-}
-
 .ovulationInterval {
     display: inline-block;
     margin:0 auto;
     width:200px;
-    position: relative;
+    position: absolute;
+}
+
+.ovulationInterval > #timeTitle {
+    text-align: center;
+    padding: 4px;
+    margin-top: 50px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: rgb(114, 115, 119);
+}
+
+.ovulationInterval > #time {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 5px;
+    color: rgb(114, 115, 119);
 }
 
 .ovulationDate {
@@ -243,4 +274,10 @@ h6,
     border-top-right-radius: 5px;
     -webkit-box-shadow: 0 3px 3px 0 gray;
     box-shadow: 0 3px 3px 0 gray;
+}
+
+.previous-cycle {
+    color: rgb(70, 71, 72);
+    font-size: 15px;
+    list-style: none;
 }

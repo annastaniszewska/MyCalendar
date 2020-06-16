@@ -34,6 +34,9 @@
                     </div>
                 </div>
             </li>
+            @*<li class="previous-cycle voffset1">
+                Previous menstrual cycle length: <strong>@cycleEvent.CycleLength</strong> days
+            </li>*@
         }
         else
         {
@@ -49,10 +52,12 @@
                     </div>
                 </div>
                 <div class="ovulationInterval">
-                    <span id="time">
+                    <div id="timeTitle">
                         Approximate time:
+                    </div>
+                    <div id="time">
                         @cycleEvent.StartDate.ToString("HH:mm")
-                    </span>
+                    </div>
                 </div>
             </li>
         }

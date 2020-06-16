@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyCalendar.Models;
 using MyCalendar.ViewModels;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -38,9 +39,23 @@ namespace MyCalendar.Controllers
                 .OrderByDescending(e => e.StartDate)
                 .ToList();
 
+            var periodEvents = _context.Events
+                .Where(e => e.UserId == userId && e.TypeId == 1)
+                .OrderByDescending(e => e.StartDate)
+                .ToList();
+
+            var cycleLengths = new List<int>();
+
+            for (var i = 0; i < periodEvents.Count-1; i++)
+            {
+                var cycleLength = (periodEvents[i].StartDate - periodEvents[i+1].StartDate).Days;
+                cycleLengths.Add(cycleLength);
+            }
+
             var viewModel = new CycleEventsViewModel()
             {
-                RecentCycleEvents = cycleEvents
+                RecentCycleEvents = cycleEvents,
+                MenstrualCycles = cycleLengths
             };
 
             return View("MyRecentEvents", viewModel);
