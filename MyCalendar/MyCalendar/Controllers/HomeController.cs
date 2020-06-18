@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyCalendar.Models;
 using MyCalendar.ViewModels;
-using System.Collections.Generic;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -21,45 +21,37 @@ namespace MyCalendar.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var latestEvent = _context.Events
+            var cycleEvents = _context.Events
+                .Where(e => e.UserId == userId)
                 .Include(e => e.Type)
-                .Where(e => e.UserId == userId && e.TypeId == 1)
                 .OrderByDescending(e => e.StartDate)
-                .FirstOrDefault();
-
-            var latestOvulationEvent = _context.Events
-                .Include(e => e.Type)
-                .Where(e => e.UserId == userId && e.TypeId == 2)
-                .OrderByDescending(e => e.StartDate)
-                .FirstOrDefault();
-
-            var periodEvents = _context.Events
-                .Where(e => e.UserId == userId && e.TypeId == 1)
-                .OrderByDescending(e => e.StartDate)
-                .Take(2)
+                .Take(3)
                 .ToList();
 
-            var cycleLengths = new List<int>();
+            CycleEvent cycleModel;
 
-            for (var i = 0; i < periodEvents.Count - 1; i++)
+            if (cycleEvents[1].TypeId == 2)
             {
-                var cycleLength = (periodEvents[i].StartDate - periodEvents[i+1].StartDate).Days;
-                cycleLengths.Add(cycleLength);
+                cycleModel = new CycleEvent
+                {
+                    StartDate = cycleEvents[0].StartDate,
+                    EndDate = cycleEvents[0].EndDate,
+                    StartDateOfPreviousEvent = cycleEvents[2].StartDate,
+                    OvulationDate = cycleEvents[1].StartDate
+                };
             }
-
-            var mostRecentEvents = new List<Event>
+            else
             {
-                latestEvent,
-                latestOvulationEvent
-            };
-
-            var viewModel = new CycleEventsViewModel()
-            {
-                RecentCycleEvents = mostRecentEvents,
-                MenstrualCycles = cycleLengths
-            };
-
-            return View("Index", viewModel);
+                cycleModel = new CycleEvent
+                {
+                    StartDate = cycleEvents[0].StartDate,
+                    EndDate = cycleEvents[0].EndDate,
+                    StartDateOfPreviousEvent = cycleEvents[1].StartDate,
+                    OvulationDate = DateTime.MinValue
+                };
+            }
+            
+            return View("Index", cycleModel);
         }
 
         public ActionResult About()

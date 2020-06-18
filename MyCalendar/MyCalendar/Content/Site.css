@@ -272,8 +272,8 @@ h6,
     border-top-left-radius: 5px;
     -ms-border-top-right-radius: 5px;
     border-top-right-radius: 5px;
-    -webkit-box-shadow: 0 3px 3px 0 gray;
-    box-shadow: 0 3px 3px 0 gray;
+    -webkit-box-shadow: 0 3px 3px 0 lightgray;
+    box-shadow: 0 3px 3px 0 lightgray;
 }
 
 .previous-cycle {

@@ -7,7 +7,7 @@
 <ul>
     @foreach (var cycleEvent in Model.RecentCycleEvents)
     {
-        if (cycleEvent.Type.Id == 1)
+        if (cycleEvent.TypeId == 1)
         {
             <li class="dates">
                 <div class="startDate">
@@ -34,9 +34,12 @@
                     </div>
                 </div>
             </li>
-            @*<li class="previous-cycle voffset1">
-                Previous menstrual cycle length: <strong>@cycleEvent.CycleLength</strong> days
-            </li>*@
+            if (!cycleEvent.StartDateOfPreviousEvent.Equals(DateTime.MinValue))
+            {
+                <li class="previous-cycle voffset1">
+                    Previous menstrual cycle length: <strong>@cycleEvent.CycleLength</strong> days
+                </li>
+            }
         }
         else
         {
@@ -45,10 +48,10 @@
                     <span>Ovulation</span>
                     <div class="ovulationDateCard"></div>
                     <div class="day">
-                        @cycleEvent.StartDate.ToString("d ")
+                        @cycleEvent.OvulationDate.ToString("d ")
                     </div>
                     <div class="monthYear">
-                        @cycleEvent.StartDate.ToString("MMM") @cycleEvent.StartDate.ToString("yy")
+                        @cycleEvent.OvulationDate.ToString("MMM") @cycleEvent.OvulationDate.ToString("yy")
                     </div>
                 </div>
                 <div class="ovulationInterval">
@@ -56,7 +59,7 @@
                         Approximate time:
                     </div>
                     <div id="time">
-                        @cycleEvent.StartDate.ToString("HH:mm")
+                        @cycleEvent.OvulationDate.ToString("HH:mm")
                     </div>
                 </div>
             </li>

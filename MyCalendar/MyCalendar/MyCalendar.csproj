@@ -238,6 +238,7 @@
     <Compile Include="Models\Type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CycleEvent.cs" />
     <Compile Include="ViewModels\CycleEventFormViewModel.cs" />
     <Compile Include="ViewModels\CycleEventsViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
