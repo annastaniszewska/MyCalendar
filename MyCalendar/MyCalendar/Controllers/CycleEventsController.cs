@@ -23,10 +23,31 @@ namespace MyCalendar.Controllers
         {
             var viewModel = new CycleEventFormViewModel
             {
-                Types = _context.Types.ToList()
+                Types = _context.Types.ToList(),
+                Heading = "Add an Event"
             };
 
-            return View(viewModel);
+            return View("CycleEventForm", viewModel);
+        }
+
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            var cycleEvent = _context.Events.Single(c => c.Id == id && c.UserId == userId);
+
+            var viewModel = new CycleEventFormViewModel
+            {
+                Id = cycleEvent.Id,
+                Types = _context.Types.ToList(),
+                StartDate = cycleEvent.StartDate.ToString("d MMM yyyy"),
+                EndDate = cycleEvent.EndDate.ToString("d MMM yyyy"),
+                Type = cycleEvent.TypeId,
+                Time = cycleEvent.StartDate.ToString("HH:mm"),
+                Heading = "Edit an Event"
+            };
+
+            return View("CycleEventForm",viewModel);
         }
 
         [Authorize]
@@ -50,6 +71,7 @@ namespace MyCalendar.Controllers
                 {
                     recentCycleEvent = new CycleEvent
                     {
+                        Id = cycleEvents[cycleEvent].Id,
                         OvulationDate = cycleEvents[cycleEvent].StartDate,
                         TypeId = cycleEvents[cycleEvent].TypeId
                     };
@@ -58,6 +80,7 @@ namespace MyCalendar.Controllers
                 {
                     recentCycleEvent = new CycleEvent
                     {
+                        Id = cycleEvents[cycleEvent].Id,
                         StartDate = cycleEvents[cycleEvent].StartDate,
                         EndDate = cycleEvents[cycleEvent].EndDate,
                         StartDateOfPreviousEvent = cycleEvents[cycleEvent + 1].TypeId == 2 ? cycleEvents[cycleEvent + 2].StartDate : cycleEvents[cycleEvent + 1].StartDate,
@@ -68,6 +91,7 @@ namespace MyCalendar.Controllers
                 {
                     recentCycleEvent = new CycleEvent
                     {
+                        Id = cycleEvents[cycleEvent].Id,
                         StartDate = cycleEvents[cycleEvent].StartDate,
                         EndDate = cycleEvents[cycleEvent].EndDate,
                         StartDateOfPreviousEvent = DateTime.MinValue,
@@ -94,7 +118,7 @@ namespace MyCalendar.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.Types = _context.Types.ToList();
-                return View("Create", viewModel);
+                return View("CycleEventForm", viewModel);
             }
 
             var cycleEvent = new Event()
@@ -109,6 +133,29 @@ namespace MyCalendar.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(CycleEventFormViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModel.Types = _context.Types.ToList();
+                return View("CycleEventForm", viewModel);
+            }
+
+            var userId = User.Identity.GetUserId();
+            var cycleEvent = _context.Events.Single(c => c.Id == viewModel.Id && c.UserId == userId);
+
+            cycleEvent.StartDate = viewModel.GetStartDate();
+            cycleEvent.EndDate = viewModel.GetEndDate();
+            cycleEvent.TypeId = viewModel.Type;
+            
+            _context.SaveChanges();
+
+            return RedirectToAction("GetRecentEvents", "CycleEvents");
         }
     }
 }

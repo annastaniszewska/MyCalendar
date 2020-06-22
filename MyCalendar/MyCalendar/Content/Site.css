@@ -129,11 +129,14 @@ h6,
 
 /* Page-level styles */
 
+.events {
+    list-style: none;
+}
+
 .dates {
     width:300px;
     height: 150px;
     margin-top: 40px;
-    list-style: none;
 }
 
 .startDateCard {
@@ -280,4 +283,14 @@ h6,
     color: rgb(70, 71, 72);
     font-size: 15px;
     list-style: none;
+}
+
+ .action a {
+    font-size: 15px;
+    visibility:hidden;
+    padding-top: 20px;
+}
+
+.action:hover a {
+    visibility:visible;
 }

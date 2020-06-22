@@ -1,12 +1,17 @@
-﻿using System;
+﻿using MyCalendar.Controllers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Web.Mvc;
 using Type = MyCalendar.Models.Type;
 
 namespace MyCalendar.ViewModels
 {
     public class CycleEventFormViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Please enter start date.")]
         [ValidDate]
         public string StartDate { get; set; }
@@ -21,6 +26,25 @@ namespace MyCalendar.ViewModels
         public IEnumerable<Type> Types { get; set; }
         
         public string Time { get; set; }
+
+        public string Heading { get; set; }
+
+        public string Action
+        {
+            get
+            {
+                Expression<Func<CycleEventsController, ActionResult>> update = 
+                    (c => c.Update(this));
+
+                Expression<Func<CycleEventsController, ActionResult>> create = 
+                    (c => c.Create(this));
+
+                var action = Id != 0 ? update : create;
+                var actionName = (action.Body as MethodCallExpression).Method.Name;
+
+                return actionName;
+            }
+        }
 
         public DateTime GetStartDate()
         {

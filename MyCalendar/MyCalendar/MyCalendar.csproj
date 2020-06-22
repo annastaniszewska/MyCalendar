@@ -323,7 +323,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\CycleEvents\Create.cshtml" />
+    <Content Include="Views\CycleEvents\CycleEventForm.cshtml" />
     <Content Include="Views\CycleEvents\MyRecentEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>

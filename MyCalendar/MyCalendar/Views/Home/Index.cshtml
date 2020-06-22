@@ -39,7 +39,7 @@
     if (!Model.OvulationDate.Equals(DateTime.MinValue))
     {
         <h2>My latest ovulation</h2>
-        <li class="dates">
+        <div class="dates">
             <div class="ovulationDate">
                 <span>Ovulation</span>
                 <div class="ovulationDateCard"></div>
@@ -58,7 +58,7 @@
                     @Model.OvulationDate.ToString("HH:mm")
                 </div>
             </div>
-        </li>
+        </div>
     }
     <div class="voffset3">
         <a href="@Url.Action("GetRecentEvents", "CycleEvents")">See more</a>

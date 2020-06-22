@@ -1,12 +1,13 @@
 ﻿@model MyCalendar.ViewModels.CycleEventFormViewModel
 @{
-    ViewBag.Title = "Add an event";
+    ViewBag.Title = Model.Heading;
 }
 
-<h2>Add an Event</h2>
-@using (Html.BeginForm("Create", "CycleEvents"))
+<h2>@Model.Heading</h2>
+@using (Html.BeginForm(Model.Action, "CycleEvents"))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
     <div class="form-group">
         @Html.LabelFor(m => m.StartDate, "Start Date")
         @Html.TextBoxFor(m => m.StartDate, new {@class = "form-control", autofocus="autofocus", placeholder ="eg 1 Jan 2020"})
