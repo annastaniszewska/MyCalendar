@@ -22,36 +22,23 @@ namespace MyCalendar.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var cycleEvents = _context.Events
-                .Where(e => e.UserId == userId)
-                .Include(e => e.Type)
-                .OrderByDescending(e => e.StartDate)
-                .Take(3)
+            var periodEvents = _context.Events
+                .Where(p => p.UserId == userId && !p.IsCanceled && p.TypeId == 1)
+                .OrderByDescending(p => p.StartDate)
+                .Take(2)
                 .ToList();
 
-            CycleEvent cycleModel;
+            var ovulationEvent = _context.Events
+                .SingleOrDefault(o => o.UserId == userId && !o.IsCanceled && o.TypeId == 2);
 
-            if (cycleEvents[1].TypeId == 2)
+            var cycleModel = new CycleEvent()
             {
-                cycleModel = new CycleEvent
-                {
-                    StartDate = cycleEvents[0].StartDate,
-                    EndDate = cycleEvents[0].EndDate,
-                    StartDateOfPreviousEvent = cycleEvents[2].StartDate,
-                    OvulationDate = cycleEvents[1].StartDate
-                };
-            }
-            else
-            {
-                cycleModel = new CycleEvent
-                {
-                    StartDate = cycleEvents[0].StartDate,
-                    EndDate = cycleEvents[0].EndDate,
-                    StartDateOfPreviousEvent = cycleEvents[1].StartDate,
-                    OvulationDate = DateTime.MinValue
-                };
-            }
-            
+                StartDate = periodEvents.Count <= 2 && periodEvents.Count != 0 ? periodEvents[0].StartDate : DateTime.MinValue,
+                EndDate = periodEvents.Count <= 2 && periodEvents.Count != 0 ? periodEvents[0].EndDate : DateTime.MinValue,
+                StartDateOfPreviousEvent = periodEvents.Count == 2 ? periodEvents[1].StartDate : DateTime.MinValue,
+                OvulationDate = ovulationEvent?.StartDate ?? DateTime.MinValue
+            };
+
             return View("Index", cycleModel);
         }
 

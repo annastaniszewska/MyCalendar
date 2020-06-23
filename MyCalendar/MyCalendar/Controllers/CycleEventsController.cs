@@ -56,23 +56,30 @@ namespace MyCalendar.Controllers
             var userId = User.Identity.GetUserId();
 
             var cycleEvents = _context.Events
-                .Where(e => e.UserId == userId)
+                .Where(e => e.UserId == userId && !e.IsCanceled)
                 .Include(e => e.Type)
                 .OrderByDescending(e => e.StartDate)
                 .ToList();
 
             var recentCycleEvents = new List<CycleEvent>();
+            
 
             for (var cycleEvent = 0; cycleEvent < cycleEvents.Count; cycleEvent++)
             {
                 CycleEvent recentCycleEvent;
-
-                if (cycleEvents[cycleEvent].TypeId == 2)
+                if (cycleEvent < cycleEvents.Count - 2)
                 {
                     recentCycleEvent = new CycleEvent
                     {
                         Id = cycleEvents[cycleEvent].Id,
-                        OvulationDate = cycleEvents[cycleEvent].StartDate,
+                        StartDate = cycleEvents[cycleEvent].StartDate,
+                        EndDate = cycleEvents[cycleEvent].EndDate,
+                        StartDateOfPreviousEvent = cycleEvents[cycleEvent + 1].TypeId == 2
+                            ? cycleEvents[cycleEvent + 2].StartDate
+                            : cycleEvents[cycleEvent + 1].StartDate,
+                        OvulationDate = cycleEvents[cycleEvent].TypeId == 2
+                            ? cycleEvents[cycleEvent].StartDate
+                            : DateTime.MinValue,
                         TypeId = cycleEvents[cycleEvent].TypeId
                     };
                 }
@@ -83,7 +90,12 @@ namespace MyCalendar.Controllers
                         Id = cycleEvents[cycleEvent].Id,
                         StartDate = cycleEvents[cycleEvent].StartDate,
                         EndDate = cycleEvents[cycleEvent].EndDate,
-                        StartDateOfPreviousEvent = cycleEvents[cycleEvent + 1].TypeId == 2 ? cycleEvents[cycleEvent + 2].StartDate : cycleEvents[cycleEvent + 1].StartDate,
+                        StartDateOfPreviousEvent = cycleEvents[cycleEvent + 1].TypeId == 2 || cycleEvents[cycleEvent].TypeId == 2
+                            ? DateTime.MinValue
+                            : cycleEvents[cycleEvent + 1].StartDate,
+                        OvulationDate = cycleEvents[cycleEvent].TypeId == 2
+                            ? cycleEvents[cycleEvent].StartDate
+                            : DateTime.MinValue,
                         TypeId = cycleEvents[cycleEvent].TypeId
                     };
                 }
@@ -95,6 +107,9 @@ namespace MyCalendar.Controllers
                         StartDate = cycleEvents[cycleEvent].StartDate,
                         EndDate = cycleEvents[cycleEvent].EndDate,
                         StartDateOfPreviousEvent = DateTime.MinValue,
+                        OvulationDate = cycleEvents[cycleEvent].TypeId == 2
+                            ? cycleEvents[cycleEvent].StartDate
+                            : DateTime.MinValue,
                         TypeId = cycleEvents[cycleEvent].TypeId
                     };
                 }

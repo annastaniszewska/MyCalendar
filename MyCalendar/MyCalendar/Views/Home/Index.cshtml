@@ -4,42 +4,45 @@
 }
 @if (User.Identity.IsAuthenticated)
 {
-    <h2>My latest period</h2>
-    <div class="dates">
-        <div class="startDate">
-            <span>Start date</span>
-            <div class="startDateCard"></div>
-            <div class="day">
-                @Model.StartDate.ToString("d ")
-            </div>
-            <div class="monthYear">
-                @Model.StartDate.ToString("MMM") @Model.StartDate.ToString("yy")
-            </div>
-        </div>
-        <div class="interval">
-            <div class="bar"></div>
-        </div>
-        <div class="endDate">
-            <span>End date</span>
-            <div class="endDateCard"></div>
-            <div class="day">
-                @Model.EndDate.ToString("d ")
-            </div>
-            <div class="monthYear">
-                @Model.EndDate.ToString("MMM") @Model.EndDate.ToString("yy")
-            </div>
-        </div>
-    </div>
-    if (Model.CycleLength != 0)
+    if (!Model.StartDate.Equals(DateTime.MinValue))
     {
-        <div class="previous-cycle voffset1">
-            Previous menstrual cycle length: <strong>@Model.CycleLength</strong> days
+        <h2 class="voffset2">My latest period</h2>
+        <div class="dates smallDates">
+            <div class="startDate">
+                <span>Start date</span>
+                <div class="startDateCard"></div>
+                <div class="day">
+                    @Model.StartDate.ToString("d ")
+                </div>
+                <div class="monthYear">
+                    @Model.StartDate.ToString("MMM") @Model.StartDate.ToString("yy")
+                </div>
+            </div>
+            <div class="interval">
+                <div class="bar"></div>
+            </div>
+            <div class="endDate">
+                <span>End date</span>
+                <div class="endDateCard"></div>
+                <div class="day">
+                    @Model.EndDate.ToString("d ")
+                </div>
+                <div class="monthYear">
+                    @Model.EndDate.ToString("MMM") @Model.EndDate.ToString("yy")
+                </div>
+            </div>
+            @if (!Model.StartDateOfPreviousEvent.Equals(DateTime.MinValue))
+            {
+                <div class="previous-cycle">
+                    Previous menstrual cycle length: <strong>@Model.CycleLength</strong> days
+                </div>
+            }
         </div>
     }
     if (!Model.OvulationDate.Equals(DateTime.MinValue))
     {
-        <h2>My latest ovulation</h2>
-        <div class="dates">
+        <h2 class="voffset2">My latest ovulation</h2>
+        <div class="dates xsDates">
             <div class="ovulationDate">
                 <span>Ovulation</span>
                 <div class="ovulationDateCard"></div>
@@ -60,7 +63,7 @@
             </div>
         </div>
     }
-    <div class="voffset3">
+    <div>
         <a href="@Url.Action("GetRecentEvents", "CycleEvents")">See more</a>
     </div>
 }

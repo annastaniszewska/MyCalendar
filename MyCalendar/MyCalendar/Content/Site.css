@@ -48,6 +48,10 @@ span.field-validation-error {
     margin-top: 50px;
 }
 
+.voffset-1 {
+    margin-top: -30px;
+}
+
 /* Bootstrap Overrides */
 .navbar-inverse {
     background-color: #E7717D;
@@ -80,7 +84,6 @@ body {
 }
 
 h2 {
-    margin-top: 30px;
     margin-bottom: 30px;
     color: rgb(70, 71, 72);
 }
@@ -134,9 +137,17 @@ h6,
 }
 
 .dates {
-    width:300px;
-    height: 150px;
-    margin-top: 40px;
+    width:310px;
+    height: 240px;
+    position: relative;
+}
+
+.smallDates {
+    height: 210px;
+}
+
+.xsDates {
+    height: 180px;
 }
 
 .startDateCard {
@@ -222,7 +233,7 @@ h6,
 }
 
 .interval > .bar {
-    width:98px;
+    width:108px;
     height:85px;
     background-image: linear-gradient(-225deg, #effdf9 0%, #fbeff9 100%);
     position: absolute;
@@ -282,15 +293,30 @@ h6,
 .previous-cycle {
     color: rgb(70, 71, 72);
     font-size: 15px;
-    list-style: none;
+    position: absolute;
+    top: 170px;
 }
 
- .action a {
+.actions {
+    color: rgb(70, 71, 72);
     font-size: 15px;
-    visibility:hidden;
-    padding-top: 20px;
+    position: absolute;
+    top: 150px;
+}
+
+.action a {
+    font-size: 15px;
+    visibility: hidden;
+}
+
+.action span {
+    visibility: hidden;
 }
 
 .action:hover a {
-    visibility:visible;
+    visibility: visible;
+}
+
+.action:hover span {
+    visibility: visible;
 }

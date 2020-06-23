@@ -3,11 +3,11 @@
     ViewBag.Title = "My Recent Events";
 }
 
-<h2>My recent events</h2>
+<h2 class="voffset2">My recent events</h2>
 <ul class="events">
     @foreach (var cycleEvent in Model.RecentCycleEvents)
     {
-        if (cycleEvent.TypeId == 1)
+        if (cycleEvent.TypeId == 1 && !cycleEvent.StartDate.Equals(DateTime.MinValue))
         {
             <li class="dates">
                 <div class="startDate">
@@ -33,22 +33,27 @@
                         @cycleEvent.EndDate.ToString("MMM") @cycleEvent.EndDate.ToString("yy")
                     </div>
                 </div>
-            </li>
-            <li class="previous-cycle">
-                <div class="action">
-                    <a href="@Url.Action("Edit", "CycleEvents", new { id = cycleEvent.Id })">Edit</a>
+                <div class="actions">
+                    <div class="action">
+                        <a href="@Url.Action("Edit", "CycleEvents", new {id = cycleEvent.Id})">
+                            Edit
+                        </a> <span>|</span>
+                        <a href="#" class="js-remove-event" data-event-id="@cycleEvent.Id">
+                            Remove
+                        </a>
+                    </div>
                 </div>
-            </li>
-            if (!cycleEvent.StartDateOfPreviousEvent.Equals(DateTime.MinValue))
-            {
-                <li class="previous-cycle voffset1">
+                @if (!cycleEvent.StartDateOfPreviousEvent.Equals(DateTime.MinValue))
+                {
+                <div class="previous-cycle voffset">
                     Previous menstrual cycle length: <strong>@cycleEvent.CycleLength</strong> days
-                </li>
-            }
+                </div>
+                }
+            </li>
         }
         else
         {
-            <li class="dates">
+            <li class="dates smallDates">
                 <div class="ovulationDate">
                     <span>Ovulation</span>
                     <div class="ovulationDateCard"></div>
@@ -67,13 +72,59 @@
                         @cycleEvent.OvulationDate.ToString("HH:mm")
                     </div>
                 </div>
-            </li>
-            <li class="previous-cycle">
-                <div class="action">
-                    <a href="@Url.Action("Edit", "CycleEvents", new { id = cycleEvent.Id })">Edit</a>
+                <div class="actions">
+                    <div class="action">
+                        <a href="@Url.Action("Edit", "CycleEvents", new {id = cycleEvent.Id})">
+                            Edit
+                        </a><span>|</span>
+                        <a href="#" class="js-remove-event" data-event-id="@cycleEvent.Id">
+                            Remove
+                        </a>
+                    </div>
                 </div>
             </li>
         }
     }
 </ul>
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $(".js-remove-event").click(function(e) {
+                var link = $(e.target);
+
+                bootbox.confirm({
+                    message: "Are you sure you want to remove this event?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-default'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            $.ajax({
+                                    url: "/api/cycleEvents/" + link.attr("data-event-id"),
+                                    method: "DELETE"
+                                })
+                                .done(function() {
+                                    link.parents("li").fadeOut(function() {
+                                        $(this).remove();
+                                    });
+                                })
+                                .fail(function() {
+                                    alert("Something failed!");
+                                });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+}
 
