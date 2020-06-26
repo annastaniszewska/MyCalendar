@@ -147,7 +147,7 @@ namespace MyCalendar.Controllers
             _context.Events.Add(cycleEvent);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("GetRecentEvents", "CycleEvents");
         }
 
         [Authorize]

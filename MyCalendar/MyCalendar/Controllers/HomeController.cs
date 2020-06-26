@@ -29,7 +29,8 @@ namespace MyCalendar.Controllers
                 .ToList();
 
             var ovulationEvent = _context.Events
-                .SingleOrDefault(o => o.UserId == userId && !o.IsCanceled && o.TypeId == 2);
+                .OrderByDescending(o => o.StartDate)
+                .FirstOrDefault(o => o.UserId == userId && !o.IsCanceled && o.TypeId == 2);
 
             var cycleModel = new CycleEvent()
             {
