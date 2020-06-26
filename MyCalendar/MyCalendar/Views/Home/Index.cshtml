@@ -6,6 +6,10 @@
 {
     if (!Model.StartDate.Equals(DateTime.MinValue))
     {
+        <div class="currentStatus voffset2">
+            Day of cycle:
+            <span class="dayOfCycle">@((DateTime.Now - Model.StartDate).Days + 1)</span>
+        </div>
         <h2 class="voffset2">My latest period</h2>
         <div class="dates smallDates">
             <div class="startDate">
