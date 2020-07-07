@@ -20,18 +20,39 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Type)
-        @Html.DropDownListFor(m => m.Type, new SelectList(Model.Types, "Id", "Name"), "Nothing Selected", new {@class = "form-control"})
+        @Html.DropDownListFor(m => m.Type, new SelectList(Model.Types, "Id", "Name"), "Nothing Selected", new {@class = "form-control", @id = "eventDropdown"})
         @Html.ValidationMessageFor(m => m.Type)
     </div>
-    <div class="form-group">
+    <div class="form-group" id="eventTime">
         @Html.LabelFor(m => m.Time)
         @Html.TextBoxFor(m => m.Time, new {@class = "form-control", placeholder= "eg 11:00" })
         @Html.ValidationMessageFor(m => m.Time)
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary voffset">Save</button>
 }
 
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function() {
+            $(function() {
+
+                if ($('#eventDropdown').find(":selected").text() !== "Ovulation") {
+                    $('#eventTime').hide();
+                }
+
+                $('#eventDropdown').change(function() {
+                    var val = $(this).find(":selected").text();
+
+                    if (val === "Ovulation") {
+                        $('#eventTime').show();
+                    } else {
+                        $('#eventTime').hide();
+                    }
+                });
+            });
+        });
+    </script>
 }
