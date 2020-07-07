@@ -10,6 +10,9 @@
             Day of cycle:
             <span class="dayOfCycle">@((DateTime.Now - Model.StartDate).Days + 1)</span>
         </div>
+        <div class="voffset2">
+            Expected date of upcoming period: @Model.FuturePeriodDate.ToString("dd-MM-yy")
+        </div>
         <h2 class="voffset2">My latest period</h2>
         <div class="dates smallDates">
             <div class="startDate">

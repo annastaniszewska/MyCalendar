@@ -63,7 +63,6 @@ namespace MyCalendar.Controllers
 
             var recentCycleEvents = new List<CycleEvent>();
             
-
             for (var cycleEvent = 0; cycleEvent < cycleEvents.Count; cycleEvent++)
             {
                 CycleEvent recentCycleEvent;
