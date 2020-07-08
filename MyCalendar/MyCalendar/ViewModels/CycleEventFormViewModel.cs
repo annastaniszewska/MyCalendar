@@ -1,4 +1,5 @@
-﻿using MyCalendar.Controllers;
+﻿using Microsoft.Ajax.Utilities;
+using MyCalendar.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,9 +16,8 @@ namespace MyCalendar.ViewModels
         [Required(ErrorMessage = "Please enter start date.")]
         [ValidDate]
         public string StartDate { get; set; }
-
-        [Required(ErrorMessage = "Please enter end date.")]
-        [ValidDate]
+        
+        [ValidDateExceptEmpty]
         public string EndDate { get; set; }
 
         [Required(ErrorMessage = "Please provide type.")]
@@ -51,9 +51,9 @@ namespace MyCalendar.ViewModels
             return DateTime.Parse($"{StartDate} {Time}");
         }
 
-        public DateTime GetEndDate()
+        public DateTime GetEndDate(int days)
         {
-            return DateTime.Parse($"{EndDate}");
+            return EndDate.IsNullOrWhiteSpace() ? DateTime.Parse($"{StartDate}").AddDays(days) : DateTime.Parse($"{EndDate}");
         }
     }
 }

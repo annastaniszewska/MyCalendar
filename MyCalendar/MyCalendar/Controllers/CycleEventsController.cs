@@ -129,16 +129,19 @@ namespace MyCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CycleEventFormViewModel viewModel)
         {
+            
             if (!ModelState.IsValid)
             {
                 viewModel.Types = _context.Types.ToList();
                 return View("CycleEventForm", viewModel);
             }
 
+            var days = GetDaysToCalculate(viewModel.Type);
+
             var cycleEvent = new Event()
             {
                 StartDate = viewModel.GetStartDate(),
-                EndDate = viewModel.GetEndDate(),
+                EndDate = viewModel.GetEndDate(days),
                 TypeId = viewModel.Type,
                 UserId = User.Identity.GetUserId()
             };
@@ -160,16 +163,36 @@ namespace MyCalendar.Controllers
                 return View("CycleEventForm", viewModel);
             }
 
+            var days = GetDaysToCalculate(viewModel.Type);
+
             var userId = User.Identity.GetUserId();
             var cycleEvent = _context.Events.Single(c => c.Id == viewModel.Id && c.UserId == userId);
 
             cycleEvent.StartDate = viewModel.GetStartDate();
-            cycleEvent.EndDate = viewModel.GetEndDate();
+            cycleEvent.EndDate = viewModel.GetEndDate(days);
             cycleEvent.TypeId = viewModel.Type;
             
             _context.SaveChanges();
 
             return RedirectToAction("GetRecentEvents", "CycleEvents");
+        }
+
+        private int GetDaysToCalculate(int type)
+        {
+            var userId = User.Identity.GetUserId();
+            var days = 0;
+
+            var periodEvents = _context.Events
+                .Where(c => c.UserId == userId && !c.IsCanceled && c.TypeId == 1)
+                .ToList();
+
+            if (type == 1)
+            {
+                var totalDays = periodEvents.Sum(c => (c.EndDate - c.StartDate).TotalDays);
+                days = (int) (totalDays / periodEvents.Count);
+            }
+
+            return days;
         }
     }
 }
