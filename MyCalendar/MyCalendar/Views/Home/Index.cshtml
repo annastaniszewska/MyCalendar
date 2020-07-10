@@ -4,15 +4,9 @@
 }
 @if (User.Identity.IsAuthenticated)
 {
-    if (!Model.StartDate.Equals(DateTime.MinValue))
-    {
-        <div class="currentStatus voffset2">
-            Day of cycle:
-            <span class="dayOfCycle">@((DateTime.Now - Model.StartDate).Days + 1)</span>
-        </div>
-        <div class="voffset2">
-            Expected date of upcoming period: @Model.FuturePeriodDate.ToString("dd-MM-yy")
-        </div>
+    <div class="leftContainer">
+        @if (!Model.StartDate.Equals(DateTime.MinValue))
+        {
         <h2 class="voffset2">My latest period</h2>
         <div class="dates smallDates">
             <div class="startDate">
@@ -45,9 +39,9 @@
                 </div>
             }
         </div>
-    }
-    if (!Model.OvulationDate.Equals(DateTime.MinValue))
-    {
+        }
+        @if (!Model.OvulationDate.Equals(DateTime.MinValue))
+        {
         <h2 class="voffset2">My latest ovulation</h2>
         <div class="dates xsDates">
             <div class="ovulationDate">
@@ -69,8 +63,32 @@
                 </div>
             </div>
         </div>
-    }
-    <div>
-        <a href="@Url.Action("GetRecentEvents", "CycleEvents")">See more</a>
+        }
+        <div>
+            <a href="@Url.Action("GetRecentEvents", "CycleEvents")">See more</a>
+        </div>
+    </div>
+    <div class="rightContainer">
+        @if (!Model.StartDate.Equals(DateTime.MinValue))
+        {
+            <div class="currentStatus voffset4">
+                Day of cycle:
+                <span class="dayOfCycle">@((DateTime.Now - Model.StartDate).Days + 1)</span>
+            </div>
+            <h4 class="voffset2">
+                Expected date of upcoming period:
+            </h4>
+            <div class="dates smallDates">
+                <div class="startDate">
+                    <div class="startDateCard"></div>
+                    <div class="day">
+                        @Model.FuturePeriodDate.ToString("d ")
+                    </div>
+                    <div class="monthYear">
+                        @Model.FuturePeriodDate.ToString("MMM") @Model.FuturePeriodDate.ToString("yy")
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 }
