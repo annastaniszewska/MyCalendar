@@ -18,6 +18,8 @@ namespace MyCalendar.ViewModels
 
         public DateTime FuturePeriodDate { get; set; }
 
+        public int AverageCycleLength { get; set; }
+
         public int CycleLength
         {
             get

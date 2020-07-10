@@ -34,6 +34,7 @@ namespace MyCalendar.Controllers
                 .FirstOrDefault(o => o.UserId == userId && !o.IsCanceled && o.TypeId == 2);
 
             var futurePeriodDate = GetFuturePeriodDate();
+            var averageCycleLength = GetAverageCycleLength();
 
             var cycleModel = new CycleEvent()
             {
@@ -41,7 +42,8 @@ namespace MyCalendar.Controllers
                 EndDate = periodEvents.Count <= 2 && periodEvents.Count != 0 ? periodEvents[0].EndDate : DateTime.MinValue,
                 StartDateOfPreviousEvent = periodEvents.Count == 2 ? periodEvents[1].StartDate : DateTime.MinValue,
                 OvulationDate = ovulationEvent?.StartDate ?? DateTime.MinValue,
-                FuturePeriodDate = futurePeriodDate
+                FuturePeriodDate = futurePeriodDate,
+                AverageCycleLength = averageCycleLength
             };
 
             return View("Index", cycleModel);
@@ -77,6 +79,24 @@ namespace MyCalendar.Controllers
             }
 
             return expectedPeriodDate;
+        }
+
+        private int GetAverageCycleLength()
+        {
+            var cycleLengths = new List<int>();
+            var periodEvents = _context.Events
+                .Where(p => p.TypeId == 1 && !p.IsCanceled)
+                .OrderByDescending(p => p.StartDate)
+                .ToList();
+
+            for (var periodEvent = 0; periodEvent < periodEvents.Count - 1; periodEvent++)
+            {
+                var cycleLength = (periodEvents[periodEvent].StartDate - periodEvents[periodEvent + 1].StartDate)
+                    .Days;
+                cycleLengths.Add(cycleLength);
+            }
+
+            return (int)cycleLengths.Average();
         }
 
         public ActionResult About()
