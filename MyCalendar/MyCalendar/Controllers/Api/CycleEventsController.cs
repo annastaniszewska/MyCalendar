@@ -26,7 +26,8 @@ namespace MyCalendar.Controllers.Api
                 return NotFound();
             }
 
-            cycleEvent.IsCanceled = true;
+            cycleEvent.Cancel();
+            
             _context.SaveChanges();
 
             return Ok();

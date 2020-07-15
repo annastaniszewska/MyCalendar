@@ -7,7 +7,7 @@ namespace MyCalendar.Models
     {
         public int Id { get; set; }
 
-        public bool IsCanceled { get; set; }
+        public bool IsCanceled { get; private set; }
 
         public ApplicationUser User { get; set; }
 
@@ -22,5 +22,17 @@ namespace MyCalendar.Models
 
         [Required]
         public byte TypeId { get; set; }
+
+        public void Cancel()
+        {
+            IsCanceled = true;
+        }
+
+        public void Modify(DateTime startDate, DateTime endDate, byte type)
+        {
+            StartDate = startDate;
+            EndDate = endDate;
+            TypeId = type;
+        }
     }
 }

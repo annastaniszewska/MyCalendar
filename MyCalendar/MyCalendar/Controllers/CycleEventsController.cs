@@ -162,16 +162,13 @@ namespace MyCalendar.Controllers
                 viewModel.Types = _context.Types.ToList();
                 return View("CycleEventForm", viewModel);
             }
-
-            var days = GetDaysToCalculate(viewModel.Type);
-
+            
             var userId = User.Identity.GetUserId();
             var cycleEvent = _context.Events.Single(c => c.Id == viewModel.Id && c.UserId == userId);
 
-            cycleEvent.StartDate = viewModel.GetStartDate();
-            cycleEvent.EndDate = viewModel.GetEndDate(days);
-            cycleEvent.TypeId = viewModel.Type;
-            
+            var days = GetDaysToCalculate(viewModel.Type);
+            cycleEvent.Modify(viewModel.GetStartDate(), viewModel.GetEndDate(days), viewModel.Type);
+
             _context.SaveChanges();
 
             return RedirectToAction("GetRecentEvents", "CycleEvents");
@@ -182,15 +179,14 @@ namespace MyCalendar.Controllers
             var userId = User.Identity.GetUserId();
             var days = 0;
 
+            if (type != 1) return days;
+
             var periodEvents = _context.Events
                 .Where(c => c.UserId == userId && !c.IsCanceled && c.TypeId == 1)
                 .ToList();
 
-            if (type == 1)
-            {
-                var totalDays = periodEvents.Sum(c => (c.EndDate - c.StartDate).TotalDays);
-                days = (int) (totalDays / periodEvents.Count);
-            }
+            var totalDays = periodEvents.Sum(c => (c.EndDate - c.StartDate).TotalDays);
+            days = (int) (totalDays / periodEvents.Count);
 
             return days;
         }
