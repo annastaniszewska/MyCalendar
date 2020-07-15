@@ -10,26 +10,26 @@
         if (cycleEvent.TypeId == 1 && !cycleEvent.StartDate.Equals(DateTime.MinValue))
         {
             <li class="dates">
-                <div class="startDate">
+                <div class="start-date">
                     <span>Start date</span>
-                    <div class="startDateCard"></div>
+                    <div class="start-date-card"></div>
                     <div class="day">
                         @cycleEvent.StartDate.ToString("d ")
                     </div>
-                    <div class="monthYear">
+                    <div class="month-year">
                         @cycleEvent.StartDate.ToString("MMM") @cycleEvent.StartDate.ToString("yy")
                     </div>
                 </div>
                 <div class="interval">
                     <div class="bar"></div>
                 </div>
-                <div class="endDate">
+                <div class="end-date">
                     <span>End date</span>
-                    <div class="endDateCard"></div>
+                    <div class="end-date-card"></div>
                     <div class="day">
                         @cycleEvent.EndDate.ToString("d ")
                     </div>
-                    <div class="monthYear">
+                    <div class="month-year">
                         @cycleEvent.EndDate.ToString("MMM") @cycleEvent.EndDate.ToString("yy")
                     </div>
                 </div>
@@ -53,18 +53,18 @@
         }
         else
         {
-            <li class="dates smallDates">
-                <div class="ovulationDate">
+            <li class="dates s-dates">
+                <div class="ovulation-date">
                     <span>Ovulation</span>
-                    <div class="ovulationDateCard"></div>
+                    <div class="ovulation-date-card"></div>
                     <div class="day">
                         @cycleEvent.OvulationDate.ToString("d ")
                     </div>
-                    <div class="monthYear">
+                    <div class="month-year">
                         @cycleEvent.OvulationDate.ToString("MMM") @cycleEvent.OvulationDate.ToString("yy")
                     </div>
                 </div>
-                <div class="ovulationInterval">
+                <div class="ovulation-interval">
                     <div id="timeTitle">
                         Approximate time:
                     </div>

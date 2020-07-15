@@ -136,13 +136,13 @@ h6,
     list-style: none;
 }
 
-.leftContainer {
+.left-container {
     width: 50%;
     height: 100%;
     float: left;
 }
 
-.rightContainer {
+.right-container {
     width: 50%;
     height: 100%;
     float: right;
@@ -155,15 +155,15 @@ h6,
     position: relative;
 }
 
-.smallDates {
+.s-dates {
     height: 210px;
 }
 
-.xsDates {
+.xs-dates {
     height: 180px;
 }
 
-.startDateCard {
+.start-date-card {
     background: rgb(80, 227, 194);
     margin-top: 15px;
     height: 8px;
@@ -175,14 +175,14 @@ h6,
     box-shadow: 0 3px 3px 0 gray;
 }
 
-.startDate {
+.start-date {
     float:left;
     width: 100px;
     text-align: center;
     position: relative;
 }
 
-.startDate > span {
+.start-date > span {
     font-size: 12px;
     font-weight: 700;
     color: rgb(80, 227, 194);
@@ -190,7 +190,7 @@ h6,
     letter-spacing: 2px;
 }
 
-.endDateCard {
+.end-date-card {
     background: rgb(250, 102, 121);
     margin-top: 15px;
     height: 8px;
@@ -202,13 +202,13 @@ h6,
     box-shadow: 0 3px 3px 0 gray;
 }
 
-.endDate {
+.end-date {
     float:right;
     width:100px;
     text-align: center;
 }
 
-.endDate > span {
+.end-date > span {
     font-size: 12px;
     font-weight: 700;
     color: rgb(250, 102, 121);
@@ -226,7 +226,7 @@ h6,
     box-shadow: 0 3px 3px 0 lightgray);
 }
 
-.monthYear {
+.month-year {
     color: rgb(114, 115, 119);
     background: #f7f7f7;
     padding: 0 6px 10px 6px;
@@ -254,14 +254,14 @@ h6,
     left: 1px;
 }
 
-.ovulationInterval {
+.ovulation-interval {
     display: inline-block;
     margin:0 auto;
     width:200px;
     position: absolute;
 }
 
-.ovulationInterval > #timeTitle {
+.ovulation-interval > #timeTitle {
     text-align: center;
     padding: 4px;
     margin-top: 50px;
@@ -270,7 +270,7 @@ h6,
     color: rgb(114, 115, 119);
 }
 
-.ovulationInterval > #time {
+.ovulation-interval > #time {
     text-align: center;
     font-size: 20px;
     font-weight: 700;
@@ -278,20 +278,20 @@ h6,
     color: rgb(114, 115, 119);
 }
 
-.ovulationDate {
+.ovulation-date {
     float:left;
     width: 100px;
     text-align: center;
 }
 
-.ovulationDate > span {
+.ovulation-date > span {
     font-size: 12px;
     font-weight: 700;
     color: #FBD786;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
-.ovulationDateCard {
+.ovulation-date-card {
     background: #FBD786;
     margin-top: 15px;
     height: 8px;
@@ -334,23 +334,26 @@ h6,
     visibility: visible;
 }
 
-.currentStatus {
-    width:400px;
-    height: 75px;
-    color: rgb(114, 115, 119);
-    font-weight: 700;
-    background: #f7f7f7;
-    padding-top: 20px;
+.current-status {
+    width: 430px;
+    height: 405px;
+    color: rgb(70, 71, 72);
+    background: #f8f8f8;
     text-align: center;
-    font-size: 24px;
-    -webkit-box-shadow: 0 3px 3px lightgray;
-    box-shadow: 0 3px 3px 0 lightgray;
-    border-radius: 8px;
+    font-size: 17px;
     margin-top: 100px;
 }
 
-.dayOfCycle {
+.days {
+    font-size: 20px;
     font-weight: 700;
-    color: rgb(250, 102, 121);
-    font-size: 24px;
+    padding: 30px;
+    color: rgb(114, 115, 119);
+    background: #f8f8f8;
+}
+
+.line-shadow {
+    width: 430px;
+    height: 2px;
+    background: #eeeeee;
 }
