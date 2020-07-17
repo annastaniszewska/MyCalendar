@@ -37,25 +37,7 @@
 
     <script>
         $(document).ready(function () {
-            $(function () {
-
-                if ($('#eventDropdown').find(":selected").text() !== "Ovulation") {
-                    $('#eventTime').hide();
-                    $('#eventEndDate').show();
-                }
-
-                $('#eventDropdown').change(function () {
-                    var val = $(this).find(":selected").text();
-
-                    if (val === "Ovulation") {
-                        $('#eventTime').show();
-                        $('#eventEndDate').hide();
-                    } else {
-                        $('#eventTime').hide();
-                        $('#eventEndDate').show();
-                    }
-                });
-            });
+            CycleEventFormController.init("#eventDropdown", "#eventTime", "#eventEndDate");
         });
     </script>
 }

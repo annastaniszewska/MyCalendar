@@ -7,6 +7,13 @@ namespace MyCalendar
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/app").Include(
+                    "~/Scripts/app/app.js",
+                    "~/Scripts/app/services/cycleEventsService.js",
+                    "~/Scripts/app/controllers/cycleEventsController.js",
+                    "~/Scripts/app/controllers/cycleEventFormController.js"
+                ));
+
             bundles.Add(new ScriptBundle("~/bundles/lib").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/bootstrap.js",
