@@ -1,0 +1,385 @@
+﻿// Color variables (appears count calculates by raw css)
+@color-basic-text: #727377; // Appears 5 times
+@color-heading: #464748; // Appears 4 times
+@color-navbar-text: #eeeeee; // Appears 3 times
+@color-navbar: #e7717d; // Appears 2 times
+@color-background-date: #f7f7f7; // Appears 2 times
+@color-background-right-panel: #f8f8f8; // Appears 2 times
+@color-start-date: #50e3c2; // Appears 2 times
+@color-end-date: #fa6679; // Appears 2 times
+@color-ovulation: #fbd786; // Appears 2 times
+@color-btn-save: #895061; // Appears 2 times
+@color-btn-save-hover: #a15e72; // Appears 2 times
+@color-shadow: #d3d3d3;
+
+// Width variables (appears count calculates by raw css)
+@width-right-panel: 430px; // Appears 2 times
+@width-max: 100px; // Appears 4 times
+@width-container: 50%; // Appears 2 times
+
+// Height variables (appears count calculates by raw css)
+@height-max: 100%; // Appears 2 times
+@height-date-card: 8px; // Appears 3 times
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+span.field-validation-error {
+    color: #d62929;
+    font-size: 15px;
+}
+
+.voffset {
+    margin-top: 10px;
+}
+
+.voffset1 {
+    margin-top: 20px;
+}
+
+.voffset2 {
+    margin-top: 30px;
+}
+
+.voffset3 {
+    margin-top: 40px;
+}
+
+.voffset4 {
+    margin-top: 50px;
+}
+
+.voffset-1 {
+    margin-top: -30px;
+}
+
+/* Bootstrap Overrides */
+.navbar-inverse {
+    background-color: @color-navbar;
+    border-color: @color-navbar;
+
+    .navbar-nav {
+        > li > a {
+            color: @color-navbar-text;
+            padding-right: 10px;
+        }
+
+        > .dropdown > a .caret {
+            margin-left: 10px;
+        }
+
+        > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+            background-color: rgba(197, 91, 91, 0.49);
+        }
+    }
+
+    .navbar-brand {
+        color: @color-navbar-text;
+        font-weight: 700;
+    }
+
+}
+
+body {
+    font-size: 16px;
+}
+
+h2 {
+    margin-bottom: 30px;
+    color: @color-heading;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    height: 40px;
+    font-size: 16px;
+    padding: 0 15px;
+}
+
+.form-control-focus {
+    border-color: #2196f3;
+}
+
+.btn-primary {
+    font-size: 16px;
+    padding: 7px 20px;
+    background-color: @color-btn-save;
+    border-color: @color-btn-save;
+
+    &:hover {
+        background-color: @color-btn-save-hover;
+        border-color: @color-btn-save-hover;
+    }
+}
+
+/* Page-level styles */
+
+.events {
+    list-style: none;
+}
+
+.left-container {
+    width: @width-container;
+    height: @height-max;
+    float: left;
+}
+
+.right-container {
+    width: @width-container;
+    height: @height-max;
+    float: right;
+    display: inline-block;
+}
+
+.dates {
+    width:310px;
+    height: 240px;
+    position: relative;
+}
+
+.s-dates {
+    height: 210px;
+}
+
+.xs-dates {
+    height: 180px;
+}
+
+.start-date {
+    float:left;
+    width: @width-max;
+    text-align: center;
+    position: relative;
+
+    > span {
+        font-size: 12px;
+        font-weight: 700;
+        color: @color-start-date;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+}
+
+.start-date-card {
+    background: @color-start-date;
+    margin-top: 15px;
+    height: @height-date-card;
+    -ms-border-top-left-radius: 5px;
+    border-top-left-radius: 5px;
+    -ms-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+    -webkit-box-shadow: 0 3px 3px 0 @color-shadow;
+    box-shadow: 0 3px 3px 0 @color-shadow;
+}
+
+.end-date {
+    float: right;
+    width: @width-max;
+    text-align: center;
+
+    > span {
+        font-size: 12px;
+        font-weight: 700;
+        color: @color-end-date;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+}
+
+.end-date-card {
+    background: @color-end-date;
+    margin-top: 15px;
+    height: @height-date-card;
+    -ms-border-top-left-radius: 5px;
+    border-top-left-radius: 5px;
+    -ms-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+    -webkit-box-shadow: 0 3px 3px 0 @color-shadow;
+    box-shadow: 0 3px 3px 0 @color-shadow;
+}
+
+.month-year {
+    color: @color-basic-text;
+    background: @color-background-date;
+    padding: 0 6px 10px 6px;
+    -ms-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -ms-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -webkit-box-shadow: 0 3px 3px  0 @color-shadow;
+    box-shadow: 0 3px 3px 0 @color-shadow;
+}
+
+.day {
+    font-size: 30px;
+    font-weight: 700;
+    padding: 6px;
+    color: @color-basic-text;
+    background: @color-background-date;
+    -webkit-box-shadow: 0 3px 3px @color-shadow;
+    box-shadow: 0 3px 3px 0 @color-shadow;
+}
+
+.interval {
+    display: inline-block;
+    margin:0 auto;
+    width: @width-max;
+    position: relative;
+
+    > .bar {
+        width:108px;
+        height:85px;
+        background-image: linear-gradient(-225deg, #effdf9 0%, #fbeff9 100%);
+        position: absolute;
+        top: 28px;
+        left: 1px;
+    }
+}
+
+.previous-cycle {
+    color: @color-heading;
+    font-size: 15px;
+    position: absolute;
+    top: 170px;
+}
+
+.ovulation-date {
+    float:left;
+    width: @width-max;
+    text-align: center;
+
+    > span {
+        font-size: 12px;
+        font-weight: 700;
+        color: @color-ovulation;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+}
+
+.ovulation-date-card {
+    background: @color-ovulation;
+    margin-top: 15px;
+    height: @height-date-card;
+    -ms-border-top-left-radius: 5px;
+    border-top-left-radius: 5px;
+    -ms-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+    -webkit-box-shadow: 0 3px 3px 0 @color-shadow;
+    box-shadow: 0 3px 3px 0 @color-shadow;
+}
+
+.ovulation-interval {
+    display: inline-block;
+    margin:0 auto;
+    width:200px;
+    position: absolute;
+
+    > #timeTitle {
+        text-align: center;
+        padding: 4px;
+        margin-top: 50px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: @color-basic-text;
+    }
+
+    > #time {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+        border-radius: 5px;
+        color: @color-basic-text;
+    }
+}
+
+.actions {
+    color: @color-heading;
+    font-size: 15px;
+    position: absolute;
+    top: 150px;
+}
+
+.action {
+    > a {
+        font-size: 15px;
+        visibility: hidden;
+    }
+
+    > span {
+        visibility: hidden;
+    }
+
+    &:hover a {
+        visibility: visible;
+    }
+
+    &:hover span {
+        visibility: visible;
+    }
+}
+
+.current-status {
+    width: @width-right-panel;
+    height: 405px;
+    color: @color-heading;
+    background: @color-background-right-panel;
+    text-align: center;
+    font-size: 17px;
+    margin-top: 100px;
+}
+
+.days {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 30px;
+    color: @color-basic-text;
+    background: @color-background-right-panel;
+}
+
+.line-shadow {
+    width: @width-right-panel;
+    height: 2px;
+    background: @color-navbar-text;
+}
