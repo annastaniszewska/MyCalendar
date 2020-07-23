@@ -51,5 +51,10 @@ namespace MyCalendar.Repositories
                 .Take(2)
                 .ToList();
         }
+
+        public void Add(Event cycleEvent)
+        {
+            _context.Events.Add(cycleEvent);
+        }
     }
 }
