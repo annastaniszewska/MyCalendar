@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyCalendar.Models;
-using System.Linq;
+using MyCalendar.Repositories;
 using System.Web.Http;
 
 namespace MyCalendar.Controllers.Api
@@ -9,23 +9,29 @@ namespace MyCalendar.Controllers.Api
     public class CycleEventsController : ApiController
     {
         private readonly ApplicationDbContext _context;
+        private readonly CycleEventRepository _cycleEventRepository;
 
         public CycleEventsController()
         {
             _context = new ApplicationDbContext();
+            _cycleEventRepository = new CycleEventRepository(_context);
         }
 
         [HttpDelete]
         public IHttpActionResult Cancel(int id)
         {
-            var userId = User.Identity.GetUserId();
-            var cycleEvent = _context.Events.Single(c => c.Id == id && c.UserId == userId);
+            var cycleEvent = _cycleEventRepository.GetCycleEvent(id);
 
-            if (cycleEvent.IsCanceled)
+            if (cycleEvent == null || cycleEvent.IsCanceled)
             {
                 return NotFound();
             }
 
+            if (cycleEvent.UserId != User.Identity.GetUserId())
+            {
+                return Unauthorized();
+            }
+            
             cycleEvent.Cancel();
             
             _context.SaveChanges();

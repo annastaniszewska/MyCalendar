@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyCalendar.Models;
+using MyCalendar.Repositories;
 using MyCalendar.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -12,10 +12,12 @@ namespace MyCalendar.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly CycleEventRepository _cycleEventRepository;
 
         public HomeController()
         {
             _context = new ApplicationDbContext();
+            _cycleEventRepository = new CycleEventRepository(_context);
         }
 
         [Authorize]
@@ -23,18 +25,11 @@ namespace MyCalendar.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var periodEvents = _context.Events
-                .Where(p => p.UserId == userId && !p.IsCanceled && p.TypeId == 1)
-                .OrderByDescending(p => p.StartDate)
-                .Take(2)
-                .ToList();
+            var periodEvents = _cycleEventRepository.GetTwoLatestPeriodEvents(userId);
+            var ovulationEvent = _cycleEventRepository.GetLatestOvulationEvent(userId);
 
-            var ovulationEvent = _context.Events
-                .OrderByDescending(o => o.StartDate)
-                .FirstOrDefault(o => o.UserId == userId && !o.IsCanceled && o.TypeId == 2);
-
-            var futurePeriodDate = GetFuturePeriodDate();
-            var averageCycleLength = GetAverageCycleLength();
+            var futurePeriodDate = GetFuturePeriodDate(ovulationEvent, periodEvents);
+            var averageCycleLength = GetAverageCycleLength(periodEvents);
 
             var cycleModel = new CycleEvent()
             {
@@ -48,18 +43,12 @@ namespace MyCalendar.Controllers
 
             return View("Index", cycleModel);
         }
-
-        private DateTime GetFuturePeriodDate()
+        
+        private static DateTime GetFuturePeriodDate(Event latestOvulation, List<Event> periodEvents)
         {
             const int lutealPhaseDuration = 14;
             var cycleLengths = new List<int>();
-
-            var latestOvulation = _context.Events.FirstOrDefault(o => o.TypeId == 2 && !o.IsCanceled);
-            var periodEvents = _context.Events
-                .Where(p => p.TypeId == 1 && !p.IsCanceled)
-                .OrderByDescending(p => p.StartDate)
-                .ToList();
-
+            
             DateTime expectedPeriodDate;
 
             if (latestOvulation?.StartDate > periodEvents[0].StartDate)
@@ -81,13 +70,9 @@ namespace MyCalendar.Controllers
             return expectedPeriodDate;
         }
 
-        private int GetAverageCycleLength()
+        private static int GetAverageCycleLength(List<Event> periodEvents)
         {
             var cycleLengths = new List<int>();
-            var periodEvents = _context.Events
-                .Where(p => p.TypeId == 1 && !p.IsCanceled)
-                .OrderByDescending(p => p.StartDate)
-                .ToList();
 
             for (var periodEvent = 0; periodEvent < periodEvents.Count - 1; periodEvent++)
             {

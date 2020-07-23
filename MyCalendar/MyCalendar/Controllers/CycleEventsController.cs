@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
 using MyCalendar.Models;
+using MyCalendar.Repositories;
 using MyCalendar.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -12,10 +12,14 @@ namespace MyCalendar.Controllers
     public class CycleEventsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly TypeRepository _typeRepository;
+        private readonly CycleEventRepository _cycleEventRepository;
 
         public CycleEventsController()
         {
             _context = new ApplicationDbContext();
+            _typeRepository = new TypeRepository(_context);
+            _cycleEventRepository = new CycleEventRepository(_context);
         }
         
         [Authorize]
@@ -23,23 +27,32 @@ namespace MyCalendar.Controllers
         {
             var viewModel = new CycleEventFormViewModel
             {
-                Types = _context.Types.ToList(),
+                Types = _typeRepository.GetEventTypes(),
                 Heading = "Add an Event"
             };
 
             return View("CycleEventForm", viewModel);
         }
-
+        
         [Authorize]
         public ActionResult Edit(int id)
         {
-            var userId = User.Identity.GetUserId();
-            var cycleEvent = _context.Events.Single(c => c.Id == id && c.UserId == userId);
+            var cycleEvent = _cycleEventRepository.GetCycleEvent(id);
+
+            if (cycleEvent == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (cycleEvent.UserId != User.Identity.GetUserId())
+            {
+                return new HttpUnauthorizedResult();
+            }
 
             var viewModel = new CycleEventFormViewModel
             {
                 Id = cycleEvent.Id,
-                Types = _context.Types.ToList(),
+                Types = _typeRepository.GetEventTypes(),
                 StartDate = cycleEvent.StartDate.ToString("d MMM yyyy"),
                 EndDate = cycleEvent.EndDate.ToString("d MMM yyyy"),
                 Type = cycleEvent.TypeId,
@@ -53,13 +66,7 @@ namespace MyCalendar.Controllers
         [Authorize]
         public ActionResult GetRecentEvents()
         {
-            var userId = User.Identity.GetUserId();
-
-            var cycleEvents = _context.Events
-                .Where(e => e.UserId == userId && !e.IsCanceled)
-                .Include(e => e.Type)
-                .OrderByDescending(e => e.StartDate)
-                .ToList();
+            var cycleEvents = _cycleEventRepository.GetCycleEvents(User.Identity.GetUserId());
 
             var recentCycleEvents = new List<CycleEvent>();
             
@@ -123,27 +130,29 @@ namespace MyCalendar.Controllers
 
             return View("MyRecentEvents", viewModel);
         }
-
+        
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CycleEventFormViewModel viewModel)
         {
-            
+            var userId = User.Identity.GetUserId();
+
             if (!ModelState.IsValid)
             {
-                viewModel.Types = _context.Types.ToList();
+                viewModel.Types = _typeRepository.GetEventTypes();
                 return View("CycleEventForm", viewModel);
             }
 
-            var days = GetDaysToCalculate(viewModel.Type);
+            var periodEvents = _cycleEventRepository.GetPeriodEvents(userId);
+            var days = viewModel.Type == 1 ? GetDaysToCalculate(periodEvents) : 0; ;
 
             var cycleEvent = new Event()
             {
                 StartDate = viewModel.GetStartDate(),
                 EndDate = viewModel.GetEndDate(days),
                 TypeId = viewModel.Type,
-                UserId = User.Identity.GetUserId()
+                UserId = userId
             };
 
             _context.Events.Add(cycleEvent);
@@ -159,14 +168,26 @@ namespace MyCalendar.Controllers
         {
             if (!ModelState.IsValid)
             {
-                viewModel.Types = _context.Types.ToList();
+                viewModel.Types = _typeRepository.GetEventTypes();
                 return View("CycleEventForm", viewModel);
             }
             
             var userId = User.Identity.GetUserId();
-            var cycleEvent = _context.Events.Single(c => c.Id == viewModel.Id && c.UserId == userId);
+            var cycleEvent = _cycleEventRepository.GetCycleEvent(viewModel.Id);
 
-            var days = GetDaysToCalculate(viewModel.Type);
+            if (cycleEvent == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (cycleEvent.UserId != userId)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var periodEvents = _cycleEventRepository.GetPeriodEvents(userId);
+            var days = viewModel.Type == 1 ? GetDaysToCalculate(periodEvents) : 0;
+
             cycleEvent.Modify(viewModel.GetStartDate(), viewModel.GetEndDate(days), viewModel.Type);
 
             _context.SaveChanges();
@@ -174,19 +195,10 @@ namespace MyCalendar.Controllers
             return RedirectToAction("GetRecentEvents", "CycleEvents");
         }
 
-        private int GetDaysToCalculate(int type)
+        private static int GetDaysToCalculate(List<Event> periodEvents)
         {
-            var userId = User.Identity.GetUserId();
-            var days = 0;
-
-            if (type != 1) return days;
-
-            var periodEvents = _context.Events
-                .Where(c => c.UserId == userId && !c.IsCanceled && c.TypeId == 1)
-                .ToList();
-
             var totalDays = periodEvents.Sum(c => (c.EndDate - c.StartDate).TotalDays);
-            days = (int) (totalDays / periodEvents.Count);
+            var days = (int)(totalDays / periodEvents.Count);
 
             return days;
         }
