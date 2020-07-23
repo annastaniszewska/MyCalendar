@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
+using MyCalendar.Helpers;
 using MyCalendar.Models;
 using MyCalendar.Repositories;
 using MyCalendar.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace MyCalendar.Controllers
@@ -28,8 +27,8 @@ namespace MyCalendar.Controllers
             var periodEvents = _cycleEventRepository.GetTwoLatestPeriodEvents(userId);
             var ovulationEvent = _cycleEventRepository.GetLatestOvulationEvent(userId);
 
-            var futurePeriodDate = GetFuturePeriodDate(ovulationEvent, periodEvents);
-            var averageCycleLength = GetAverageCycleLength(periodEvents);
+            var futurePeriodDate = DateCalculations.GetFuturePeriodDate(ovulationEvent, periodEvents);
+            var averageCycleLength = DateCalculations.GetAverageCycleLength(periodEvents);
 
             var cycleModel = new CycleEvent()
             {
@@ -42,46 +41,6 @@ namespace MyCalendar.Controllers
             };
 
             return View("Index", cycleModel);
-        }
-        
-        private static DateTime GetFuturePeriodDate(Event latestOvulation, List<Event> periodEvents)
-        {
-            const int lutealPhaseDuration = 14;
-            var cycleLengths = new List<int>();
-            
-            DateTime expectedPeriodDate;
-
-            if (latestOvulation?.StartDate > periodEvents[0].StartDate)
-            {
-                expectedPeriodDate = latestOvulation.StartDate.Date.AddDays(lutealPhaseDuration);
-            }
-            else
-            {
-                for (var periodEvent = 0; periodEvent < periodEvents.Count - 1; periodEvent++)
-                {
-                    var cycleLength = (periodEvents[periodEvent].StartDate - periodEvents[periodEvent + 1].StartDate)
-                        .Days;
-                    cycleLengths.Add(cycleLength);
-                }
-
-                expectedPeriodDate = periodEvents[0].StartDate.Date.AddDays(cycleLengths.Average());
-            }
-
-            return expectedPeriodDate;
-        }
-
-        private static int GetAverageCycleLength(List<Event> periodEvents)
-        {
-            var cycleLengths = new List<int>();
-
-            for (var periodEvent = 0; periodEvent < periodEvents.Count - 1; periodEvent++)
-            {
-                var cycleLength = (periodEvents[periodEvent].StartDate - periodEvents[periodEvent + 1].StartDate)
-                    .Days;
-                cycleLengths.Add(cycleLength);
-            }
-
-            return (int)cycleLengths.Average();
         }
 
         public ActionResult About()

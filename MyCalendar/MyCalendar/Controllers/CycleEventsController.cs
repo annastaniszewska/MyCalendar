@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
+using MyCalendar.Helpers;
 using MyCalendar.Models;
 using MyCalendar.Repositories;
 using MyCalendar.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace MyCalendar.Controllers
@@ -145,7 +145,7 @@ namespace MyCalendar.Controllers
             }
 
             var periodEvents = _cycleEventRepository.GetPeriodEvents(userId);
-            var days = viewModel.Type == 1 ? GetDaysToCalculate(periodEvents) : 0; ;
+            var days = viewModel.Type == 1 ? DateCalculations.GetDaysToCalculate(periodEvents) : 0; ;
 
             var cycleEvent = new Event()
             {
@@ -186,21 +186,13 @@ namespace MyCalendar.Controllers
             }
 
             var periodEvents = _cycleEventRepository.GetPeriodEvents(userId);
-            var days = viewModel.Type == 1 ? GetDaysToCalculate(periodEvents) : 0;
+            var days = viewModel.Type == 1 ? DateCalculations.GetDaysToCalculate(periodEvents) : 0;
 
             cycleEvent.Modify(viewModel.GetStartDate(), viewModel.GetEndDate(days), viewModel.Type);
 
             _context.SaveChanges();
 
             return RedirectToAction("GetRecentEvents", "CycleEvents");
-        }
-
-        private static int GetDaysToCalculate(List<Event> periodEvents)
-        {
-            var totalDays = periodEvents.Sum(c => (c.EndDate - c.StartDate).TotalDays);
-            var days = (int)(totalDays / periodEvents.Count);
-
-            return days;
         }
     }
 }
