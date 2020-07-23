@@ -51,11 +51,11 @@ span.field-validation-error {
   padding-right: 10px;
 }
 .navbar-inverse .navbar-nav > .dropdown > a .caret {
-  margin-left: 10px;
+  margin-left: 5px;
 }
 .navbar-inverse .navbar-nav > .open > a,
-.navbar-inverse .navbar-nav .navbar-inverse .navbar-nav > .open > a:hover,
-.navbar-inverse .navbar-nav .navbar-inverse .navbar-nav > .open > a:focus {
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
   background-color: rgba(197, 91, 91, 0.49);
 }
 .navbar-inverse .navbar-brand {
