@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
+using MyCalendar.Core;
+using MyCalendar.Core.Models;
+using MyCalendar.Core.ViewModels;
 using MyCalendar.Helpers;
-using MyCalendar.Models;
-using MyCalendar.Persistence;
-using MyCalendar.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -11,13 +11,11 @@ namespace MyCalendar.Controllers
 {
     public class CycleEventsController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CycleEventsController()
+        public CycleEventsController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(_context);
+            _unitOfWork = unitOfWork;
         }
         
         [Authorize]

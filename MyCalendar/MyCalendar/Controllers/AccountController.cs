@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MyCalendar.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using MyCalendar.ViewModels;
+using MyCalendar.Core.Models;
+using MyCalendar.Core.ViewModels;
 
 namespace MyCalendar.Controllers
 {

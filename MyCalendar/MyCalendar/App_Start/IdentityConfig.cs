@@ -10,7 +10,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using MyCalendar.Models;
+using MyCalendar.Core.Models;
+using MyCalendar.Persistence;
 
 namespace MyCalendar
 {

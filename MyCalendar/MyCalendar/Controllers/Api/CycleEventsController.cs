@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
-using MyCalendar.Models;
 using MyCalendar.Persistence;
 using System.Web.Http;
+using MyCalendar.Core.Models;
 
 namespace MyCalendar.Controllers.Api
 {

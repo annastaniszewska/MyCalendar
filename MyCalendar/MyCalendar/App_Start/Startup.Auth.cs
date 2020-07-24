@@ -4,8 +4,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using MyCalendar.Core.Models;
+using MyCalendar.Persistence;
 using Owin;
-using MyCalendar.Models;
 
 namespace MyCalendar
 {

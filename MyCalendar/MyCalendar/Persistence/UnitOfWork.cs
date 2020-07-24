@@ -1,14 +1,16 @@
-﻿using MyCalendar.Models;
-using MyCalendar.Repositories;
+﻿using MyCalendar.Core;
+using MyCalendar.Core.Models;
+using MyCalendar.Core.Repositories;
+using MyCalendar.Persistence.Repositories;
 
 namespace MyCalendar.Persistence
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
 
-        public CycleEventRepository CycleEvents { get; private set; }
-        public TypeRepository Types { get; private set; }
+        public ICycleEventRepository CycleEvents { get; private set; }
+        public ITypeRepository Types { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {

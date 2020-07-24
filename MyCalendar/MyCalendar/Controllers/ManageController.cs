@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MyCalendar.Models;
+using MyCalendar.Core.Models;
+using MyCalendar.Core.ViewModels;
 
 namespace MyCalendar.Controllers
 {

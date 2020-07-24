@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
+using MyCalendar.Core;
+using MyCalendar.Core.ViewModels;
 using MyCalendar.Helpers;
-using MyCalendar.Models;
-using MyCalendar.Persistence;
-using MyCalendar.ViewModels;
 using System;
 using System.Web.Mvc;
 
@@ -10,13 +9,11 @@ namespace MyCalendar.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController()
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(_context);
+            _unitOfWork = unitOfWork;
         }
 
         [Authorize]
