@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace MyCalendar.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<Type> Types { get; set; }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MyCalendar.Core.Models;
+﻿using MyCalendar.Core.Models;
+using System.Collections.Generic;
 
 namespace MyCalendar.Core.Repositories
 {
@@ -9,7 +9,6 @@ namespace MyCalendar.Core.Repositories
         Event GetLatestOvulationEvent(string userId);
         List<Event> GetCycleEvents(string userId);
         List<Event> GetPeriodEvents(string userId);
-        List<Event> GetTwoLatestPeriodEvents(string userId);
         void Add(Event cycleEvent);
     }
 }

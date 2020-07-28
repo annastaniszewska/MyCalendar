@@ -8,9 +8,9 @@ namespace MyCalendar.Persistence.Repositories
 {
     public class CycleEventRepository : ICycleEventRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public CycleEventRepository(ApplicationDbContext context)
+        public CycleEventRepository(IApplicationDbContext context)
         {
             _context = context;
         }
@@ -41,15 +41,6 @@ namespace MyCalendar.Persistence.Repositories
             return _context.Events
                 .Where(c => c.UserId == userId && !c.IsCanceled && c.TypeId == 1)
                 .OrderByDescending(p => p.StartDate)
-                .ToList();
-        }
-
-        public List<Event> GetTwoLatestPeriodEvents(string userId)
-        {
-            return _context.Events
-                .Where(p => p.UserId == userId && !p.IsCanceled && p.TypeId == 1)
-                .OrderByDescending(p => p.StartDate)
-                .Take(2)
                 .ToList();
         }
 

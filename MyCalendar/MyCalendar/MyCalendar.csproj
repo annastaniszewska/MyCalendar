@@ -245,6 +245,7 @@
     <Compile Include="Persistence\EntityConfigurations\ApplicationUserConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\EventConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\TypeConfiguration.cs" />
+    <Compile Include="Persistence\IApplicationDbContext.cs" />
     <Compile Include="Persistence\Migrations\202006081102486_InitialModel.cs" />
     <Compile Include="Persistence\Migrations\202006081102486_InitialModel.Designer.cs">
       <DependentUpon>202006081102486_InitialModel.cs</DependentUpon>
