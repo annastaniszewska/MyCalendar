@@ -1,20 +1,17 @@
 ﻿using Microsoft.AspNet.Identity;
-using MyCalendar.Persistence;
+using MyCalendar.Core;
 using System.Web.Http;
-using MyCalendar.Core.Models;
 
 namespace MyCalendar.Controllers.Api
 {
     [Authorize]
     public class CycleEventsController : ApiController
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CycleEventsController()
+        public CycleEventsController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(_context);
+            _unitOfWork = unitOfWork;
         }
 
         [HttpDelete]
