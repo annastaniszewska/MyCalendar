@@ -89,6 +89,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Controllers\Api\CycleEventsControllerTests.cs" />
+    <Compile Include="Domain\Models\EventTests.cs" />
     <Compile Include="Extensions\ApiControllerExtensions.cs" />
     <Compile Include="Persistence\Repositories\CycleEventRepositoryTests.cs" />
     <Compile Include="Extensions\MockDbSetExtensions.cs" />
