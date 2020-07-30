@@ -25,9 +25,14 @@ namespace MyCalendar.Controllers
             var periodEvents = _unitOfWork.CycleEvents.GetPeriodEvents(userId);
             var twoLatestPeriodEvents = periodEvents.Take(2).ToList();
             var ovulationEvent = _unitOfWork.CycleEvents.GetLatestOvulationEvent(userId);
-            
-            var futurePeriodDate = DateCalculations.GetFuturePeriodDate(ovulationEvent, periodEvents);
-            var averageCycleLength = DateCalculations.GetAverageCycleLength(periodEvents);
+            var futurePeriodDate = DateTime.MinValue;
+
+            if (ovulationEvent != null || periodEvents.Count >= 2)
+            {
+                futurePeriodDate = DateCalculations.GetFuturePeriodDate(ovulationEvent, periodEvents);
+            }
+
+            var averageCycleLength = periodEvents.Count < 2 ? 0 : DateCalculations.GetAverageCycleLength(periodEvents);
 
             var cycleModel = new CycleEvent()
             {

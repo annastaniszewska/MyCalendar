@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MyCalendar.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyCalendar.Core.Models;
 
 namespace MyCalendar.Helpers
 {
@@ -9,6 +9,8 @@ namespace MyCalendar.Helpers
     {
         public static int GetDaysToCalculate(List<Event> periodEvents)
         {
+            if (periodEvents.Count < 1) return 0;
+
             var totalDays = periodEvents.Sum(c => (c.EndDate - c.StartDate).TotalDays);
             var days = (int)(totalDays / periodEvents.Count);
 

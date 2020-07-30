@@ -141,7 +141,7 @@ namespace MyCalendar.Controllers
             }
 
             var periodEvents = _unitOfWork.CycleEvents.GetPeriodEvents(userId);
-            var days = viewModel.Type == 1 ? DateCalculations.GetDaysToCalculate(periodEvents) : 0; ;
+            var days = viewModel.Type == 1 ? DateCalculations.GetDaysToCalculate(periodEvents) : 0;
 
             var cycleEvent = new Event()
             {

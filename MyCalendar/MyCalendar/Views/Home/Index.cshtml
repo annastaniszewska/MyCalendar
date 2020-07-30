@@ -40,6 +40,11 @@
                 }
             </div>
         }
+        else
+        {
+            <h3 class="voffset3">There are no events added yet.</h3>
+            <button id="addAnEvent" class="btn btn-primary voffset" onclick='window.location.href = "@Url.Action("Create", "CycleEvents")"'>Add an event</button>
+        }
         @if (!Model.OvulationDate.Equals(DateTime.MinValue))
         {
             <h2 class="voffset2">My latest ovulation</h2>
@@ -64,36 +69,45 @@
                 </div>
             </div>
         }
-        <div>
-            <a href="@Url.Action("GetRecentEvents", "CycleEvents")">See more</a>
-        </div>
+        @if (!Model.StartDate.Equals(DateTime.MinValue))
+        {
+            <div>
+                <a href="@Url.Action("GetRecentEvents", "CycleEvents")">See more</a>
+            </div>
+        }
     </div>
     <div class="right-container">
         @if (!Model.StartDate.Equals(DateTime.MinValue))
         {
             <div class="current-status">
                 <div class="line-shadow"></div>
-                <div class="voffset1">
+                <div class="days-title">
                     Day of cycle:
                     <div class="days">
                         @((DateTime.Now - Model.StartDate).Days + 1)
                     </div>
                 </div>
                 <div class="line-shadow"></div>
-                <div class="voffset1">
-                    Expected date of upcoming period:
-                    <div class="days">
-                        @Model.FuturePeriodDate.ToString("d MMM yyyy")
+                @if (!Model.FuturePeriodDate.Equals(DateTime.MinValue))
+                {
+                    <div class="days-title">
+                        Expected date of upcoming period:
+                        <div class="days">
+                            @Model.FuturePeriodDate.ToString("d MMM yyyy")
+                        </div>
                     </div>
-                </div>
-                <div class="line-shadow"></div>
-                <div class="voffset1">
-                    Average length of cycle:
-                    <div class="days">
-                        @Model.AverageCycleLength days
+                    <div class="line-shadow"></div>
+                }
+                @if (!Model.AverageCycleLength.Equals(0))
+                {
+                    <div class="days-title">
+                        Average length of cycle:
+                        <div class="days">
+                            @Model.AverageCycleLength days
+                        </div>
                     </div>
-                </div>
-                <div class="line-shadow"></div>
+                    <div class="line-shadow"></div>
+                }
             </div>
         }
     </div>
