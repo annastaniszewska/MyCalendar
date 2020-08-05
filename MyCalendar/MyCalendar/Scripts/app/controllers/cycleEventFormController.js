@@ -7,8 +7,14 @@
     var handleFormDisplay = function (dropdownId, eventStartDate, eventEndDateId, eventTimeId) {
         $(function () {
 
-            if ($(dropdownId).find(":selected").text() !== "Ovulation" || $(dropdownId).find(":selected").text() !== "Period") {
+            if ($("option:selected", $(dropdownId)).text() == "Nothing Selected") {
                 noEventProvided(eventStartDate, eventEndDateId, eventTimeId);
+            }
+            else if ($("option:selected", $(dropdownId)).text() == "Period"){
+                periodEventDisplay(eventStartDate, eventTimeId, eventEndDateId);
+            }
+            else if ($("option:selected", $(dropdownId)).text() == "Ovulation") {
+                ovulationEventDisplay(eventStartDate, eventTimeId, eventEndDateId);
             }
 
             $(dropdownId).change(function () {
